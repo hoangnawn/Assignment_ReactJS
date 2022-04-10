@@ -66,7 +66,7 @@ const Home = (props: Props) => {
             <section className="section-name padding-y-sm">
                 <div className="container">
                     <header className="section-heading">
-                        <a href="#" className="btn btn-outline-primary float-right">See all</a>
+                        <Link to="/product" className="btn btn-outline-primary float-right">See all</Link>
                         <h3 className="section-title">Tất cả sản phẩm</h3>
                     </header>
 
@@ -84,7 +84,7 @@ const Home = (props: Props) => {
                         renderItem={item => (
                             <List.Item style={{textAlign:"center"}}>
                                 <Card title={<Image width={250} style={{textAlign:"center"}} src={item.image} />}>
-                                    <a href=""><h5>{item.name}</h5></a>
+                                    <Link to={`product/${item.id}`}><h5>{item.name}</h5></Link>
                                     <h6>{Money(item.price)}</h6>
 
                                 </Card>

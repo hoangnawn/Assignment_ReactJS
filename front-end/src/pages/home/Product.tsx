@@ -1,20 +1,47 @@
-import React from 'react'
+import { Card, List, Image } from 'antd';
+import React, { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom';
+import { listcate } from '../../api/category';
+import { list } from '../../api/product';
+import { Money } from '../../utils/home';
+import { CateType } from '../types/category';
+import { ProductType } from '../types/product';
 
 type Props = {}
 
 const Product = (props: Props) => {
+    const [products, setProducts] = useState<ProductType[]>();
+
+    useEffect(() => {
+        const getProducts = async () => {
+            const { data } = await list();
+            setProducts(data);
+        }
+        getProducts();
+    }, [])
+    const listData = products?.map((item, index) => {
+        return {
+            key: index + 1,
+            id: item._id,
+            name: item.name,
+            price: item.price,
+            image: item.image
+        }
+    })
+    const [cates, setCates] = useState<CateType[]>();
+
+    useEffect(() => {
+        const getCates = async () => {
+            const { data } = await listcate();
+            setCates(data);
+        }
+        getCates();
+    }, [])
     return (
         <div>
             <section className="section-pagetop bg">
                 <div className="container">
-                    <h2 className="title-page">Category products</h2>
-                    <nav>
-                        <ol className="breadcrumb text-white">
-                            <li className="breadcrumb-item"><a href="#">Home</a></li>
-                            <li className="breadcrumb-item"><a href="#">Best category</a></li>
-                            <li className="breadcrumb-item active" aria-current="page">Great articles</li>
-                        </ol>
-                    </nav>
+                    <h2 className="title-page">Danh sách sản phẩm</h2>
                 </div>
             </section>
 
@@ -28,7 +55,7 @@ const Product = (props: Props) => {
                                     <header className="card-header">
                                         <a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" className="">
                                             <i className="icon-control fa fa-chevron-down"></i>
-                                            <h6 className="title">Product type</h6>
+                                            <h6 className="title">Danh mục sản phẩm</h6>
                                         </a>
                                     </header>
                                     <div className="filter-content collapse show" id="collapse_1">
@@ -43,51 +70,12 @@ const Product = (props: Props) => {
                                             </form>
 
                                             <ul className="list-menu">
-                                                <li><a href="#">People  </a></li>
-                                                <li><a href="#">Watches </a></li>
-                                                <li><a href="#">Cinema  </a></li>
-                                                <li><a href="#">Clothes  </a></li>
-                                                <li><a href="#">Home items </a></li>
-                                                <li><a href="#">Animals</a></li>
-                                                <li><a href="#">People </a></li>
+                                                {cates?.map((item, index) => (
+                                                    <li key={index}>
+                                                        <Link to={`/${item._id}`}>{item.name}</Link>
+                                                    </li>
+                                                ))}
                                             </ul>
-                                        </div>
-                                    </div>
-                                </article>
-                                <article className="filter-group">
-                                    <header className="card-header">
-                                        <a href="#" data-toggle="collapse" data-target="#collapse_2" aria-expanded="true" className="">
-                                            <i className="icon-control fa fa-chevron-down"></i>
-                                            <h6 className="title">Brands </h6>
-                                        </a>
-                                    </header>
-                                    <div className="filter-content collapse show" id="collapse_2">
-                                        <div className="card-body">
-                                            <label className="custom-control custom-checkbox">
-                                                <input type="checkbox" className="custom-control-input" />
-                                                <div className="custom-control-label">Mercedes
-                                                    <b className="badge badge-pill badge-light float-right">120</b>  </div>
-                                            </label>
-                                            <label className="custom-control custom-checkbox">
-                                                <input type="checkbox" className="custom-control-input" />
-                                                <div className="custom-control-label">Toyota
-                                                    <b className="badge badge-pill badge-light float-right">15</b>  </div>
-                                            </label>
-                                            <label className="custom-control custom-checkbox">
-                                                <input type="checkbox" className="custom-control-input" />
-                                                <div className="custom-control-label">Mitsubishi
-                                                    <b className="badge badge-pill badge-light float-right">35</b> </div>
-                                            </label>
-                                            <label className="custom-control custom-checkbox">
-                                                <input type="checkbox" className="custom-control-input" />
-                                                <div className="custom-control-label">Nissan
-                                                    <b className="badge badge-pill badge-light float-right">89</b> </div>
-                                            </label>
-                                            <label className="custom-control custom-checkbox">
-                                                <input type="checkbox" className="custom-control-input" />
-                                                <div className="custom-control-label">Honda
-                                                    <b className="badge badge-pill badge-light float-right">30</b>  </div>
-                                            </label>
                                         </div>
                                     </div>
                                 </article>
@@ -95,7 +83,7 @@ const Product = (props: Props) => {
                                     <header className="card-header">
                                         <a href="#" data-toggle="collapse" data-target="#collapse_3" aria-expanded="true" className="">
                                             <i className="icon-control fa fa-chevron-down"></i>
-                                            <h6 className="title">Price range </h6>
+                                            <h6 className="title">Lọc sản phẩm theo giá</h6>
                                         </a>
                                     </header>
                                     <div className="filter-content collapse show" id="collapse_3">
@@ -115,73 +103,16 @@ const Product = (props: Props) => {
                                         </div>
                                     </div>
                                 </article>
-                                <article className="filter-group">
-                                    <header className="card-header">
-                                        <a href="#" data-toggle="collapse" data-target="#collapse_4" aria-expanded="true" className="">
-                                            <i className="icon-control fa fa-chevron-down"></i>
-                                            <h6 className="title">Sizes </h6>
-                                        </a>
-                                    </header>
-                                    <div className="filter-content collapse show" id="collapse_4">
-                                        <div className="card-body">
-                                            <label className="checkbox-btn">
-                                                <input type="checkbox" />
-                                                <span className="btn btn-light"> XS </span>
-                                            </label>
-                                            <label className="checkbox-btn">
-                                                <input type="checkbox" />
-                                                <span className="btn btn-light"> SM </span>
-                                            </label>
-                                            <label className="checkbox-btn">
-                                                <input type="checkbox" />
-                                                <span className="btn btn-light"> LG </span>
-                                            </label>
-                                            <label className="checkbox-btn">
-                                                <input type="checkbox" />
-                                                <span className="btn btn-light"> XXL </span>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </article>
-                                <article className="filter-group">
-                                    <header className="card-header">
-                                        <a href="#" data-toggle="collapse" data-target="#collapse_5" aria-expanded="false" className="">
-                                            <i className="icon-control fa fa-chevron-down"></i>
-                                            <h6 className="title">More filter </h6>
-                                        </a>
-                                    </header>
-                                    <div className="filter-content collapse in" id="collapse_5">
-                                        <div className="card-body">
-                                            <label className="custom-control custom-radio">
-                                                <input type="radio" name="myfilter_radio"  className="custom-control-input" />
-                                                <div className="custom-control-label">Any condition</div>
-                                            </label>
-                                            <label className="custom-control custom-radio">
-                                                <input type="radio" name="myfilter_radio" className="custom-control-input" />
-                                                <div className="custom-control-label">Brand new </div>
-                                            </label>
-                                            <label className="custom-control custom-radio">
-                                                <input type="radio" name="myfilter_radio" className="custom-control-input" />
-                                                <div className="custom-control-label">Used items</div>
-                                            </label>
-                                            <label className="custom-control custom-radio">
-                                                <input type="radio" name="myfilter_radio" className="custom-control-input" />
-                                                <div className="custom-control-label">Very old</div>
-                                            </label>
-                                        </div>
-                                    </div>
-                                </article>
                             </div>
                         </aside>
                         <main className="col-md-9">
                             <header className="border-bottom mb-4 pb-3">
                                 <div className="form-inline">
-                                    <span className="mr-md-auto">32 Items found </span>
+                                    <span className="mr-md-auto">Danh sách sản phẩm</span>
                                     <select className="mr-2 form-control">
-                                        <option>Latest items</option>
-                                        <option>Trending</option>
-                                        <option>Most Popular</option>
-                                        <option>Cheapest</option>
+                                        <option>Mới nhất</option>
+                                        <option>Nhiều lượt thích</option>
+                                        <option>Giá cao đến thấp</option>
                                     </select>
                                     <div className="btn-group">
                                         <a href="#" className="btn btn-outline-secondary" data-toggle="tooltip" title="List view">
@@ -192,154 +123,31 @@ const Product = (props: Props) => {
                                 </div>
                             </header>
                             <div className="row">
-                                <div className="col-md-4">
-                                    <figure className="card card-product-grid">
-                                        <div className="img-wrap">
-                                            <span className="badge badge-danger"> NEW </span>
-                                            <img src="assets/images/items/1.jpg" />
-                                            <a className="btn-overlay" href="#"><i className="fa fa-search-plus"></i> Quick view</a>
-                                        </div>
-                                        <figcaption className="info-wrap">
-                                            <div className="fix-height">
-                                                <a href="#" className="title">Great item name goes here</a>
-                                                <div className="price-wrap mt-2">
-                                                    <span className="price">$1280</span>
-                                                    <del className="price-old">$1980</del>
-                                                </div>
-                                            </div>
-                                            <a href="#" className="btn btn-block btn-primary">Add to cart </a>
-                                        </figcaption>
-                                    </figure>
-                                </div>
-                                <div className="col-md-4">
-                                    <figure className="card card-product-grid">
-                                        <div className="img-wrap">
-                                            <img src="assets/images/items/2.jpg" />
-                                            <a className="btn-overlay" href="#"><i className="fa fa-search-plus"></i> Quick view</a>
-                                        </div>
-                                        <figcaption className="info-wrap">
-                                            <div className="fix-height">
-                                                <a href="#" className="title">Product name goes here just for demo item</a>
-                                                <div className="price-wrap mt-2">
-                                                    <span className="price">$1280</span>
-                                                </div>
-                                            </div>
-                                            <a href="#" className="btn btn-block btn-primary">Add to cart </a>
-                                        </figcaption>
-                                    </figure>
-                                </div>
-                                <div className="col-md-4">
-                                    <figure className="card card-product-grid">
-                                        <div className="img-wrap">
-                                            <img src="assets/images/items/3.jpg" />
-                                            <a className="btn-overlay" href="#"><i className="fa fa-search-plus"></i> Quick view</a>
-                                        </div>
-                                        <figcaption className="info-wrap">
-                                            <div className="fix-height">
-                                                <a href="#" className="title">Product name goes here just for demo item</a>
-                                                <div className="price-wrap mt-2">
-                                                    <span className="price">$1280</span>
-                                                </div>
-                                            </div>
-                                            <a href="#" className="btn btn-block btn-primary">Add to cart </a>
-                                        </figcaption>
-                                    </figure>
-                                </div>
-                                <div className="col-md-4">
-                                    <figure className="card card-product-grid">
-                                        <div className="img-wrap">
-                                            <img src="assets/images/items/4.jpg" />
-                                            <a className="btn-overlay" href="#"><i className="fa fa-search-plus"></i> Quick view</a>
-                                        </div>
-                                        <figcaption className="info-wrap">
-                                            <div className="fix-height">
-                                                <a href="#" className="title">Product name goes here just for demo item</a>
-                                                <div className="price-wrap mt-2">
-                                                    <span className="price">$1280</span>
-                                                </div>
-                                            </div>
-                                            <a href="#" className="btn btn-block btn-primary">Add to cart </a>
-                                        </figcaption>
-                                    </figure>
-                                </div>
-                                <div className="col-md-4">
-                                    <figure className="card card-product-grid">
-                                        <div className="img-wrap">
-                                            <img src="assets/images/items/5.jpg" />
-                                            <a className="btn-overlay" href="#"><i className="fa fa-search-plus"></i> Quick view</a>
-                                        </div>
-                                        <figcaption className="info-wrap">
-                                            <div className="fix-height">
-                                                <a href="#" className="title">Product name goes here just for demo item</a>
-                                                <div className="price-wrap mt-2">
-                                                    <span className="price">$1280</span>
-                                                </div>
-                                            </div>
-                                            <a href="#" className="btn btn-block btn-primary">Add to cart </a>
-                                        </figcaption>
-                                    </figure>
-                                </div>
-                                <div className="col-md-4">
-                                    <figure className="card card-product-grid">
-                                        <div className="img-wrap">
-                                            <img src="assets/images/items/6.jpg" />
-                                            <a className="btn-overlay" href="#"><i className="fa fa-search-plus"></i> Quick view</a>
-                                        </div>
-                                        <figcaption className="info-wrap">
-                                            <div className="fix-height">
-                                                <a href="#" className="title">Product name goes here just for demo item</a>
-                                                <div className="price-wrap mt-2">
-                                                    <span className="price">$1280</span>
-                                                </div>
-                                            </div>
-                                            <a href="#" className="btn btn-block btn-primary">Add to cart </a>
-                                        </figcaption>
-                                    </figure>
-                                </div>
-                                <div className="col-md-4">
-                                    <figure className="card card-product-grid">
-                                        <div className="img-wrap">
-                                            <img src="assets/images/items/7.jpg" />
-                                            <a className="btn-overlay" href="#"><i className="fa fa-search-plus"></i> Quick view</a>
-                                        </div>
-                                        <figcaption className="info-wrap">
-                                            <div className="fix-height">
-                                                <a href="#" className="title">Product name goes here just for demo item</a>
-                                                <div className="price-wrap mt-2">
-                                                    <span className="price">$1280</span>
-                                                </div>
-                                            </div>
-                                            <a href="#" className="btn btn-block btn-primary">Add to cart </a>
-                                        </figcaption>
-                                    </figure>
-                                </div>
-                                <div className="col-md-4">
-                                    <figure className="card card-product-grid">
-                                        <div className="img-wrap">
-                                            <img src="assets/images/items/1.jpg" />
-                                            <a className="btn-overlay" href="#"><i className="fa fa-search-plus"></i> Quick view</a>
-                                        </div>
-                                        <figcaption className="info-wrap">
-                                            <div className="fix-height">
-                                                <a href="#" className="title">Product name goes here just for demo item</a>
-                                                <div className="price-wrap mt-2">
-                                                    <span className="price">$1280</span>
-                                                </div>
-                                            </div>
-                                            <a href="#" className="btn btn-block btn-primary">Add to cart </a>
-                                        </figcaption>
-                                    </figure>
-                                </div>
+                                <List
+                                    grid={{ gutter: 16, column: 4 }}
+                                    size={'default'}
+                                    pagination={{
+                                        onChange: page => {
+                                            console.log(page);
+                                        },
+                                        pageSize: 8,
+                                    }}
+                                    dataSource={listData}
+
+                                    renderItem={item => (
+                                        <List.Item style={{ textAlign: "center" }}>
+                                            <Card title={<Image width={180} style={{ textAlign: "center" }} src={item.image} />}>
+                                                <Link to={`/product/${item.id}`}><h5>{item.name}</h5></Link>
+                                                <h6>{Money(item.price)}</h6>
+
+                                            </Card>
+
+                                        </List.Item>
+                                    )}
+                                />,
+
                             </div>
-                            <nav className="mt-4" aria-label="Page navigation sample">
-                                <ul className="pagination">
-                                    <li className="page-item disabled"><a className="page-link" href="#">Previous</a></li>
-                                    <li className="page-item active"><a className="page-link" href="#">1</a></li>
-                                    <li className="page-item"><a className="page-link" href="#">2</a></li>
-                                    <li className="page-item"><a className="page-link" href="#">3</a></li>
-                                    <li className="page-item"><a className="page-link" href="#">Next</a></li>
-                                </ul>
-                            </nav>
+
                         </main>
                     </div>
                 </div>
