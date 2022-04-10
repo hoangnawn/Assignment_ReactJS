@@ -4,7 +4,7 @@ import instance from "./instance";
 
 // const { token, user} = isAuthenticate();
 
-export const list = () => {
+export const listcate = () => {
     const url = `/category`;
     return instance.get(url);
 }

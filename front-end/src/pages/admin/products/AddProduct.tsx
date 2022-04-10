@@ -5,7 +5,7 @@ import { Breadcrumb, Layout, Input, Select, notification, Upload } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
 import Title from 'antd/lib/typography/Title';
 import { CateType } from '../../types/category';
-import { list } from '../../../api/category';
+import { listcate } from '../../../api/category';
 import { uploadImg } from '../../../utils/home';
 import { Button, Form } from 'react-bootstrap';
 
@@ -29,7 +29,7 @@ const AddProduct = () => {
 
     useEffect(() => {
         (async () => { //get cate
-            const { data } = await list();
+            const { data } = await listcate();
             setCategories(data);
         })();
     }, []);

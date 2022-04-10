@@ -7,7 +7,7 @@ import { Button, Radio } from 'antd';
 import { NavLink } from 'react-router-dom';
 import swal from 'sweetalert';
 import { CateType } from '../../types/category';
-import { list, remove } from '../../../api/category';
+import { listcate, remove } from '../../../api/category';
 
 
 const { Title } = Typography;
@@ -18,7 +18,7 @@ const ListCate = () => {
 
     useEffect(() => {
         const getProducts = async () => {
-            const { data } = await list();
+            const { data } = await listcate();
             setCates(data);
         }
         getProducts();

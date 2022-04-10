@@ -10,7 +10,6 @@ const WebsiteLayouts = (props: Props) => {
   return (
     <div>
       <HeaderHome/>
-      <NavHome />
       <Outlet />
       <FooterHome />
     </div>

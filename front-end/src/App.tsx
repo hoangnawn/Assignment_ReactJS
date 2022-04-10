@@ -18,6 +18,7 @@ import Demo from './pages/admin/Demo'
 import Signin from './pages/auth/Signin'
 import PrivateRouter from './components/admin/PrivateRouter'
 import NotFoundPage from './components/home/NotFoundPage'
+import Product from './pages/home/Product'
 
 
 
@@ -29,13 +30,14 @@ function App() {
     <div className="">
       <Routes>
         <Route path='/' element={<WebsiteLayouts />}>
-          <Route index element={<Navigate to='home'/>}/>
+          <Route index element={<Navigate to='home' />} />
           <Route path='home' element={<Home />} />
+          <Route path='product' element={<Product />} />
         </Route>
-        <Route path='admin' element={<PrivateRouter><AdminLayouts  /></PrivateRouter>}>
-          <Route index element={<Navigate to="dashboard"/>} />
+        <Route path='admin' element={<PrivateRouter><AdminLayouts /></PrivateRouter>}>
+          <Route index element={<Navigate to="dashboard" />} />
           <Route path='dashboard' element={<Dashboard />} />
-          <Route path='demo' element={<Demo/>} />
+          <Route path='demo' element={<Demo />} />
           <Route path='product'>
             <Route index element={<ListProduct />} />
             <Route path='add' element={<AddProduct />} />

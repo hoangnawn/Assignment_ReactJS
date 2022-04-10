@@ -68,7 +68,7 @@ const HeaderHome = (props: Props) => {
                                     <NavLink className="nav-link" to="/">Trang chủ</NavLink>
                                 </li>
                                 <li className="nav-item">
-                                    <a className="nav-link" href="#">Sản phẩm</a>
+                                    <a className="nav-link" href="/product">Sản phẩm</a>
                                 </li>
                                 <li className="nav-item">
                                     <a className="nav-link" href="#">Tin tức</a>

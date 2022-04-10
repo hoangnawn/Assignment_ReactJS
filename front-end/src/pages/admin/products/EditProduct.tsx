@@ -8,7 +8,7 @@ import { ProductType } from '../../types/product';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Button, Form } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { list, listbyIDCate } from '../../../api/category';
+import { listcate, listbyIDCate } from '../../../api/category';
 import { CateType } from '../../types/category';
 import { uploadImg } from '../../../utils/home';
 
@@ -36,7 +36,7 @@ const EditProduct = () => {
     useEffect(() => {
         // get categories
         const getCates = async () => {
-            const { data } = await list();
+            const { data } = await listcate();
             setCategories(data);
         };
 
