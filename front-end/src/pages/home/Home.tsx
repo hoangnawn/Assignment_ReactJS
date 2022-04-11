@@ -49,7 +49,7 @@ const Home = (props: Props) => {
                                 <ul className="menu-category">
                                     {cates?.map((item,index)=>(
                                         <li key={index}>
-                                            <Link to={`/${item._id}`}>{item.name}</Link>
+                                            <Link to={`/category/${item._id}`}>{item.name}</Link>
                                         </li>
                                     ))}
                                 </ul>
@@ -84,7 +84,7 @@ const Home = (props: Props) => {
                         renderItem={item => (
                             <List.Item style={{textAlign:"center"}}>
                                 <Card title={<Image width={250} style={{textAlign:"center"}} src={item.image} />}>
-                                    <Link to={`product/${item.id}`}><h5>{item.name}</h5></Link>
+                                    <Link to={`/product/${item.id}`}><h5>{item.name}</h5></Link>
                                     <h6>{Money(item.price)}</h6>
 
                                 </Card>

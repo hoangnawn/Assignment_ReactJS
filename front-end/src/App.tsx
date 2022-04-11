@@ -19,6 +19,8 @@ import Signin from './pages/auth/Signin'
 import PrivateRouter from './components/admin/PrivateRouter'
 import NotFoundPage from './components/home/NotFoundPage'
 import Product from './pages/home/Product'
+import ProductDetail from './pages/home/ProductDetail'
+import ProductByCate from './pages/home/ProductByCate'
 
 
 
@@ -32,7 +34,15 @@ function App() {
         <Route path='/' element={<WebsiteLayouts />}>
           <Route index element={<Navigate to='home' />} />
           <Route path='home' element={<Home />} />
-          <Route path='product' element={<Product />} />
+          <Route path='product'>
+            <Route index element={<Navigate to='product' />} />
+            <Route path='product' element={<Product />} />
+            <Route path=':id' element={<ProductDetail />} />
+          </Route>
+          <Route path='category'>
+            <Route index element={<Navigate to=':id'/>}/>
+            <Route path=':id' element={<ProductByCate />}/>
+          </Route>
         </Route>
         <Route path='admin' element={<PrivateRouter><AdminLayouts /></PrivateRouter>}>
           <Route index element={<Navigate to="dashboard" />} />

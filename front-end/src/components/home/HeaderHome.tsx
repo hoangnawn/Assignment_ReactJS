@@ -37,7 +37,7 @@ const HeaderHome = (props: Props) => {
                                     <div className="widget-header icontext">
                                         <a href="#" className="icon icon-sm rounded-circle border"><i className="fa fa-user"></i></a>
                                         <div className="text">
-                                            <span className="text-muted">Welcome!</span>
+                                            <span className="text-muted">Xin chào</span>
                                             {auth && (
                                                 <div>
                                                     {auth.user.name} <br />

@@ -20,10 +20,10 @@ export const listCategory = async(request,response)=>{
 export const listCategoryDetail = async (request,response)=>{
     try {
         const category = await Category.findOne({_id:request.params.id}).exec()
-        // const product = await Product.find({category}).exec()
+        const product = await Product.find({category}).exec()
         // const product = await Product.find({category}).populate("category").exec()
         // const product = await Product.find({category}).select("-category").exec()
-        response.json(category)
+        response.json({category,product})
     } catch (error) {
         response.status(400).json({message:"Khong the hien thi"})
     }
