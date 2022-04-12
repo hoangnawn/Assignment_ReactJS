@@ -3,22 +3,49 @@ import { useParams } from 'react-router-dom'
 import { listbyID } from '../../api/product';
 import { Money } from '../../utils/home';
 import { ProductType } from '../types/product';
+import toastr from "toastr";
+import { useCart } from "react-use-cart";
+import { addToCart } from '../../utils/auth';
+
 
 type Props = {}
 
 const ProductDetail = (props: Props) => {
     const [product, setProduct] = useState<ProductType>();
+    const [quantity, setQuantity] = useState<number>(1);
+
     const { id } = useParams();
-    console.log(id);
     useEffect(() => {
-        const getProducts = async () =>{
+        const getProducts = async () => {
             const { data } = await listbyID(id);
-            console.log(data);
-            
+
             setProduct(data)
         }
         getProducts()
     }, [])
+    const handleIncrease = () => {
+        setQuantity(prev => prev + 1);
+    }
+
+    const handleDecrease = () => {
+        if (quantity === 1) {
+            toastr.info("Vui lòng chọn ít nhất 1 sản phẩm");
+        } else {
+            setQuantity(quantity - 1);
+        }
+    }
+    const productCart = {
+        id,
+        productId: product?._id,
+        name: product?.name,
+        price: product?.price,
+        image: product?.image,
+        quantity
+    }
+    const addCart = () =>{
+        addToCart(productCart)
+        
+    }
 
     return (
         <div>
@@ -48,12 +75,39 @@ const ProductDetail = (props: Props) => {
                                         <div className="mb-3">
                                             <var className="price h4">{Money(product?.price || 0)}</var> <br />
                                         </div>
-
-                                        <div className="mb-4">
-                                            <a href="#" className="btn btn-primary mr-1">Buy now</a>
-                                            <a href="#" className="btn btn-light">Add to card</a>
-                                        </div>
-
+                                        <div className="border-b border-dashed pb-4 mt-6">
+                                            {/* {showBtnClear  && <p className="transition-all ease-linear duration-100 mt-6 border-t border-dashed pt-2 text-xl font-semibold">{formatCurrency(totalPrice)}</p>} */}
+                                            <div className="flex mt-2 items-center">
+                                                <div className="flex items-center h-9">
+                                                    <button
+                                                        type="button"
+                                                        onClick={handleDecrease}
+                                                        className="px-2 bg-gray-100 border-gray-200 h-full border-l border-y transition ease-linear duration-300 hover:shadow-[inset_0_0_100px_rgba(0,0,0,0.2)]"
+                                                    >-</button>
+                                                    <input
+                                                        type="text"
+                                                        className="border border-gray-200 h-full w-10 text-center outline-none shadow-[inset_0_1px_2px_rgba(0,0,0,0.1)] hover:shadow-none focus:shadow-[0_0_5px_#ccc]"
+                                                        value={quantity}
+                                                        onChange={(e: any) => {
+                                                            const qnt = e.target.value;
+                                                            if (isNaN(qnt)) {
+                                                                toastr.info("Vui lòng nhập số");
+                                                            } else {
+                                                                setQuantity(+e.target.value)
+                                                            }
+                                                        }}
+                                                    />
+                                                    <button
+                                                        type="button"
+                                                        onClick={handleIncrease}
+                                                        className="px-2 bg-gray-100 border-gray-200 h-full border-r border-y transition ease-linear duration-300 hover:shadow-[inset_0_0_100px_rgba(0,0,0,0.2)]"
+                                                    >+</button>
+                                                </div>
+                                            </div>
+                                            <div className="mb-4">
+                                                <button className="btn btn-primary mr-1" onClick={() => addCart()}>Buy now</button>
+                                            </div>
+                                        </div>                        
                                     </article>
                                 </main>
                             </div>
