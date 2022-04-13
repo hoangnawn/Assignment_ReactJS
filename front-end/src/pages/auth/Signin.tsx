@@ -58,8 +58,7 @@ const Signin = ({ onLogin }: LoginPageProps) => {
                                 <div className="container">
                                     <div className="row">
                                         <div className="col-lg-10 col-xl-7 mx-auto">
-                                            <h3 className="display-4">Split login page!</h3>
-                                            <p className="text-muted mb-4">Create a login split page using Reactjs & Bootstrap 5.</p>
+                                            <h3 className="display-4">Đăng nhập</h3>
                                             <Form onSubmit={handleSubmit(onSubmit)}>
                                                 <Form.Group as={Col} md="10" controlId="validationCustomUsername">
                                                     <Form.Label>Email</Form.Label>

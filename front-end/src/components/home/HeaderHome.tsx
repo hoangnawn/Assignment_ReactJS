@@ -1,11 +1,22 @@
 import React from 'react'
 import { Dropdown, DropdownButton, FormControl, InputGroup } from 'react-bootstrap';
-import { NavLink } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import { isAuthenticate } from '../../utils/auth';
+import { useCart } from 'react-use-cart'
+
 
 type Props = {}
 
 const HeaderHome = (props: Props) => {
+    const {
+        isEmpty,
+        totalUniqueItems,
+        items,
+        totalItems,
+        updateItemQuantity,
+        removeItem,
+        emptyCart
+    } = useCart();
     const auth = isAuthenticate()
     return (
         <div>
@@ -31,8 +42,8 @@ const HeaderHome = (props: Props) => {
                             <div className="col-lg-4 col-sm-6 col-12">
                                 <div className="widgets-wrap float-md-right">
                                     <div className="widget-header  mr-3">
-                                        <a href="#" className="icon icon-sm rounded-circle border"><i className="fa fa-shopping-cart"></i></a>
-                                        <span className="badge badge-pill badge-danger notify">0</span>
+                                        <Link to="cart" className="icon icon-sm rounded-circle border"><i className="fa fa-shopping-cart"></i></Link>
+                                        <span className="badge badge-pill badge-danger notify">{totalUniqueItems}</span>
                                     </div>
                                     <div className="widget-header icontext">
                                         <a href="#" className="icon icon-sm rounded-circle border"><i className="fa fa-user"></i></a>
@@ -42,7 +53,6 @@ const HeaderHome = (props: Props) => {
                                                 <div>
                                                     {auth.user.name} <br />
                                                 </div>
-
                                             )}
                                             {!auth && (
                                                 <div>

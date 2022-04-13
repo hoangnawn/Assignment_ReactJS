@@ -6,11 +6,14 @@ import { list } from '../../api/product';
 import { Money } from '../../utils/home';
 import { CateType } from '../types/category';
 import { ProductType } from '../types/product';
+import { useCart } from 'react-use-cart'
+
 
 type Props = {}
 
 const Product = (props: Props) => {
     const [products, setProducts] = useState<ProductType[]>();
+    const { addItem } = useCart()
 
     useEffect(() => {
         const getProducts = async () => {
@@ -139,6 +142,7 @@ const Product = (props: Props) => {
                                             <Card title={<Image width={180} style={{ textAlign: "center" }} src={item.image} />}>
                                                 <Link to={`/product/${item.id}`}><h5>{item.name}</h5></Link>
                                                 <h6>{Money(item.price)}</h6>
+                                                <button className="btn btn-primary mr-1" onClick={()=>addItem(item)}>Buy now</button>
 
                                             </Card>
 

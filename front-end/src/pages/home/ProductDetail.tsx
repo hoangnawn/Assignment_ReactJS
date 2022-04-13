@@ -4,16 +4,14 @@ import { listbyID } from '../../api/product';
 import { Money } from '../../utils/home';
 import { ProductType } from '../types/product';
 import toastr from "toastr";
-import { useCart } from "react-use-cart";
+import { useCart } from 'react-use-cart'
 import { addToCart } from '../../utils/auth';
 
 
-type Props = {}
 
-const ProductDetail = (props: Props) => {
+const ProductDetail = () => {
     const [product, setProduct] = useState<ProductType>();
-    const [quantity, setQuantity] = useState<number>(1);
-
+    const { addItem } = useCart()
     const { id } = useParams();
     useEffect(() => {
         const getProducts = async () => {
@@ -23,29 +21,27 @@ const ProductDetail = (props: Props) => {
         }
         getProducts()
     }, [])
-    const handleIncrease = () => {
-        setQuantity(prev => prev + 1);
-    }
+    // const handleIncrease = () => {
+    //     setQuantity(prev => prev + 1);
+    // }
 
-    const handleDecrease = () => {
-        if (quantity === 1) {
-            toastr.info("Vui lòng chọn ít nhất 1 sản phẩm");
-        } else {
-            setQuantity(quantity - 1);
-        }
-    }
+    // const handleDecrease = () => {
+    //     if (quantity === 1) {
+    //         toastr.info("Vui lòng chọn ít nhất 1 sản phẩm");
+    //     } else {
+    //         setQuantity(quantity - 1);
+    //     }
+    // }
     const productCart = {
         id,
         productId: product?._id,
         name: product?.name,
         price: product?.price,
         image: product?.image,
-        quantity
     }
-    const addCart = () =>{
-        addToCart(productCart)
-        
-    }
+    // const addCart = () =>{
+    //     addToCart({...productCart})
+    // }
 
     return (
         <div>
@@ -78,7 +74,7 @@ const ProductDetail = (props: Props) => {
                                         <div className="border-b border-dashed pb-4 mt-6">
                                             {/* {showBtnClear  && <p className="transition-all ease-linear duration-100 mt-6 border-t border-dashed pt-2 text-xl font-semibold">{formatCurrency(totalPrice)}</p>} */}
                                             <div className="flex mt-2 items-center">
-                                                <div className="flex items-center h-9">
+                                                {/* <div className="flex items-center h-9">
                                                     <button
                                                         type="button"
                                                         onClick={handleDecrease}
@@ -102,10 +98,10 @@ const ProductDetail = (props: Props) => {
                                                         onClick={handleIncrease}
                                                         className="px-2 bg-gray-100 border-gray-200 h-full border-r border-y transition ease-linear duration-300 hover:shadow-[inset_0_0_100px_rgba(0,0,0,0.2)]"
                                                     >+</button>
-                                                </div>
+                                                </div> */}
                                             </div>
                                             <div className="mb-4">
-                                                <button className="btn btn-primary mr-1" onClick={() => addCart()}>Buy now</button>
+                                                <button className="btn btn-primary mr-1" onClick={()=>addItem(productCart)}>Buy now</button>
                                             </div>
                                         </div>                        
                                     </article>

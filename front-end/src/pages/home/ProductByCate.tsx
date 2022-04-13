@@ -6,6 +6,7 @@ import { list } from '../../api/product';
 import { Money } from '../../utils/home';
 import { CateType } from '../types/category';
 import { ProductType } from '../types/product';
+import { useCart } from 'react-use-cart'
 
 type ProductByCateProps = {
 }
@@ -13,6 +14,8 @@ type ProductByCateProps = {
 const ProductByCate = ( props: ProductByCateProps) => {
     const [products, setProducts] = useState<ProductType[]>();
     const { id } = useParams();
+    const { addItem } = useCart()
+
 
     useEffect(() => {
         const getProducts = async () => {
@@ -40,6 +43,13 @@ const ProductByCate = ( props: ProductByCateProps) => {
         getCates();
     }, [])
     console.log(products);
+    // const productCart = {
+    //     id,
+    //     productId: products?._id,
+    //     name: products?.name,
+    //     price: products?.price,
+    //     image: products?.image,
+    // }
     
     return (
         <div>
@@ -143,7 +153,7 @@ const ProductByCate = ( props: ProductByCateProps) => {
                                             <Card title={<Image width={180} style={{ textAlign: "center" }} src={item.image} />}>
                                                 <Link to={`/product/${item.id}`}><h5>{item.name}</h5></Link>
                                                 <h6>{Money(item.price)}</h6>
-
+                                                <button className="btn btn-primary mr-1" onClick={()=>addItem(item)}>Buy now</button>
                                             </Card>
 
                                         </List.Item>

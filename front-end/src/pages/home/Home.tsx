@@ -8,11 +8,15 @@ import { ProductType } from '../types/product';
 import { Money } from '../../utils/home';
 import { CateType } from '../types/category';
 import { Link } from 'react-router-dom';
+import { useCart } from 'react-use-cart'
+
 
 type Props = {}
 
 const Home = (props: Props) => {
     const [products, setProducts] = useState<ProductType[]>();
+    const { addItem } = useCart()
+
 
     useEffect(() => {
         const getProducts = async () => {
@@ -36,7 +40,7 @@ const Home = (props: Props) => {
             id: item._id,
             name: item.name,
             price: item.price,
-            image: item.image
+            image: item.image,
         }
     })
     return (
@@ -86,6 +90,7 @@ const Home = (props: Props) => {
                                 <Card title={<Image width={250} style={{textAlign:"center"}} src={item.image} />}>
                                     <Link to={`/product/${item.id}`}><h5>{item.name}</h5></Link>
                                     <h6>{Money(item.price)}</h6>
+                                    <button className="btn btn-primary mr-1" onClick={()=>addItem(item)}>Buy now</button>
 
                                 </Card>
 
