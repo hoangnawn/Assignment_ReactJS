@@ -11,9 +11,9 @@ import { Link } from 'react-router-dom';
 import { useCart } from 'react-use-cart'
 
 
-type Props = {}
+type HomeProps = {}
 
-const Home = (props: Props) => {
+const Home = (props: HomeProps) => {
     const [products, setProducts] = useState<ProductType[]>();
     const { addItem } = useCart()
 
@@ -90,7 +90,7 @@ const Home = (props: Props) => {
                                 <Card title={<Image width={250} style={{textAlign:"center"}} src={item.image} />}>
                                     <Link to={`/product/${item.id}`}><h5>{item.name}</h5></Link>
                                     <h6>{Money(item.price)}</h6>
-                                    <button className="btn btn-primary mr-1" onClick={()=>addItem(item)}>Buy now</button>
+                                    <button className="btn btn-primary mr-1" onClick={()=>addItem(item)}>Mua ngay</button>
 
                                 </Card>
 

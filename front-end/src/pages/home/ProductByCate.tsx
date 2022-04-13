@@ -153,7 +153,7 @@ const ProductByCate = ( props: ProductByCateProps) => {
                                             <Card title={<Image width={180} style={{ textAlign: "center" }} src={item.image} />}>
                                                 <Link to={`/product/${item.id}`}><h5>{item.name}</h5></Link>
                                                 <h6>{Money(item.price)}</h6>
-                                                <button className="btn btn-primary mr-1" onClick={()=>addItem(item)}>Buy now</button>
+                                                <button className="btn btn-primary mr-1" onClick={()=>addItem(item)}>Mua ngay</button>
                                             </Card>
 
                                         </List.Item>

@@ -1,199 +1,114 @@
+import { notification } from 'antd';
 import React from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
+import { useCart } from 'react-use-cart';
+import { add } from '../../api/order';
+import { Money } from '../../utils/home';
+import { OrderType } from '../types/order';
 
 type Props = {}
 
 const CheckOut = (props: Props) => {
+    const { register, handleSubmit, formState, reset } = useForm<OrderType>();
+    const navigator = useNavigate()
+    const openNotificationWithIcon = (type: string) => {
+        notification[type]({
+          message: 'Đặt hàng thành công',
+        });
+      };
+    const onSubmit: SubmitHandler<OrderType> = async (product) => {
+        console.log(product);
+        console.log(items);
+        add({
+            userOrder: product.userOrder,
+            listOrder: items,
+            cartTotal: cartTotal,
+            status: "0"
+        })            
+        openNotificationWithIcon('success')
+        localStorage.removeItem("react-use-cart")
+        reset()
+        setTimeout(() => navigator("/product"), 3000)
+
+    }
+
+    const {
+        isEmpty,
+        totalUniqueItems,
+        items,
+        totalItems,
+        updateItemQuantity,
+        removeItem,
+        emptyCart,
+        cartTotal
+    } = useCart();
     return (
         <div>
             <div className="maincontainer">
-                <div className="d-flex flex-column flex-md-row align-items-center p-3 px-md-4 mb-3 bg-white border-bottom box-shadow">
-                    <h5 className="my-0 mr-md-auto font-weight-normal">Company name</h5>
-                    <nav className="my-2 my-md-0 mr-md-3">
-                        <a className="p-2 text-dark" href="#">Features</a>
-                        <a className="p-2 text-dark" href="#">Enterprise</a>
-                        <a className="p-2 text-dark" href="#">Support</a>
-                        <a className="p-2 text-dark" href="#">Pricing</a>
-                    </nav>
-                    <a className="btn btn-outline-primary" href="#">Sign up</a>
-                </div>
                 <div className="container">
                     <div className="py-5 text-center">
 
-                        <h2>Checkout form</h2>
-                        <p className="lead">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.</p>
+                        <h2>Thanh toán</h2>
                     </div>
                     <div className="row">
                         <div className="col-md-4 order-md-2 mb-4">
                             <h4 className="d-flex justify-content-between align-items-center mb-3">
-                                <span className="text-muted">Your cart</span>
-                                <span className="badge badge-secondary badge-pill">3</span>
+                                <span className="text-muted">Giỏ hàng</span>
+                                <span className="badge badge-secondary badge-pill">{totalUniqueItems}</span>
                             </h4>
                             <ul className="list-group mb-3">
-                                <li className="list-group-item d-flex justify-content-between lh-condensed">
-                                    <div>
-                                        <h6 className="my-0">Product name</h6>
-                                        <small className="text-muted">Brief description</small>
-                                    </div>
-                                    <span className="text-muted">$12</span>
-                                </li>
-                                <li className="list-group-item d-flex justify-content-between lh-condensed">
-                                    <div>
-                                        <h6 className="my-0">Second product</h6>
-                                        <small className="text-muted">Brief description</small>
-                                    </div>
-                                    <span className="text-muted">$8</span>
-                                </li>
-                                <li className="list-group-item d-flex justify-content-between lh-condensed">
-                                    <div>
-                                        <h6 className="my-0">Third item</h6>
-                                        <small className="text-muted">Brief description</small>
-                                    </div>
-                                    <span className="text-muted">$5</span>
-                                </li>
-                                <li className="list-group-item d-flex justify-content-between bg-light">
-                                    <div className="text-success">
-                                        <h6 className="my-0">Promo code</h6>
-                                        <small>EXAMPLECODE</small>
-                                    </div>
-                                    <span className="text-success">-$5</span>
-                                </li>
+                                {items.map((item, index) => {
+                                    return (
+                                        <li className="list-group-item d-flex justify-content-between lh-condensed">
+                                            <div>
+                                                <h6 className="my-0">{item.name}</h6>
+                                            </div>
+                                            <span className="text-muted">{Money(item.price * item.quantity)}</span>
+                                        </li>
+                                    )
+                                })}
                                 <li className="list-group-item d-flex justify-content-between">
-                                    <span>Total (USD)</span>
-                                    <strong>$20</strong>
+                                    <span>Tổng tiền</span>
+                                    <strong>{Money(cartTotal)}</strong>
                                 </li>
                             </ul>
-                            <form className="card p-2">
-                                <div className="input-group">
-                                    <input type="text" className="form-control" placeholder="Promo code" />
-                                    <div className="input-group-append">
-                                        <button type="button" className="btn btn-secondary">Redeem</button>
-                                    </div>
-                                </div>
-                            </form>
                         </div>
                         <div className="col-md-8 order-md-1">
-                            <h4 className="mb-3">Billing address</h4>
-                            <form className="needs-validation" >
-                                <div className="row">
-                                    <div className="col-md-6 mb-3">
-                                        <label >First name</label>
-                                        <input type="text" className="form-control" id="firstName" placeholder="" value="" required />
-                                        <div className="invalid-feedback">
-                                            Valid first name is required.
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6 mb-3">
-                                        <label >Last name</label>
-                                        <input type="text" className="form-control" id="lastName" placeholder="" value="" required />
-                                        <div className="invalid-feedback">
-                                            Valid last name is required.
-                                        </div>
-                                    </div>
-                                </div>
+                            <h4 className="mb-3">Thông tin</h4>
+                            <form className="needs-validation" onSubmit={handleSubmit(onSubmit)} >
                                 <div className="mb-3">
-                                    <label >Username</label>
+                                    <label >Họ và tên</label>
                                     <div className="input-group">
-                                        <div className="input-group-prepend">
-                                            <span className="input-group-text">@</span>
-                                        </div>
-                                        <input type="text" className="form-control" id="username" placeholder="Username" required />
+                                        <input {...register('userOrder.name')} type="text" className="form-control" id="username" placeholder="Nguyễn Văn A"  />
                                         <div className="invalid-feedback">
-                                            Your username is required.
+                                            không được để trống
                                         </div>
                                     </div>
                                 </div>
                                 <div className="mb-3">
                                     <label >Email <span className="text-muted">(Optional)</span></label>
-                                    <input type="email" className="form-control" id="email" placeholder="you@example.com" />
+                                    <input type="email" {...register('userOrder.email')} className="form-control" id="email" placeholder="you@example.com" />
                                     <div className="invalid-feedback">
-                                        Please enter a valid email address for shipping updates.
+                                        Vui lòng nhập email
                                     </div>
                                 </div>
                                 <div className="mb-3">
-                                    <label >Address</label>
-                                    <input type="text" className="form-control" id="address" placeholder="1234 Main St" required />
+                                    <label >Địa chỉ</label>
+                                    <input type="text" {...register('userOrder.address')} className="form-control" id="address" placeholder="123 Phố trịnh văn bô ....." />
                                     <div className="invalid-feedback">
                                         Please enter your shipping address.
                                     </div>
                                 </div>
                                 <div className="mb-3">
-                                    <label >Address 2 <span className="text-muted">(Optional)</span></label>
-                                    <input type="text" className="form-control" id="address2" placeholder="Apartment or suite" />
-                                </div>
-                                <div className="row">
-                                    <div className="col-md-5 mb-3">
-                                        <label >Country</label>
-                                        <select className="custom-select d-block w-100" id="country" required>
-                                            <option value="">Choose...</option>
-                                            <option>United States</option>
-                                        </select>
-                                        <div className="invalid-feedback">
-                                            Please select a valid country.
-                                        </div>
-                                    </div>
-                                    <div className="col-md-4 mb-3">
-                                        <label >State</label>
-                                        <select className="custom-select d-block w-100" id="state" required>
-                                            <option value="">Choose...</option>
-                                            <option>California</option>
-                                        </select>
-                                        <div className="invalid-feedback">
-                                            Please provide a valid state.
-                                        </div>
-                                    </div>
-                                    <div className="col-md-3 mb-3">
-                                        <label >Zip</label>
-                                        <input type="text" className="form-control" id="zip" placeholder="" required />
-                                        <div className="invalid-feedback">
-                                            Zip code required.
-                                        </div>
+                                    <label >Số điện thoại <span className="text-muted">(Optional)</span></label>
+                                    <input type="text" {...register('userOrder.phone')} className="form-control" id="email" placeholder="03875823..." />
+                                    <div className="invalid-feedback">
+                                        Vui lòng nhập email
                                     </div>
                                 </div>
                                 <hr className="mb-4" />
-                                <div className="custom-control custom-checkbox">
-                                    <input type="checkbox" className="custom-control-input" id="same-address" />
-                                    <label className="custom-control-label" >Shipping address is the same as my billing address</label>
-                                </div>
-                                <div className="custom-control custom-checkbox">
-                                    <input type="checkbox" className="custom-control-input" id="save-info" />
-                                    <label className="custom-control-label" >Save this information for next time</label>
-                                </div>
-                                <hr className="mb-4" />
-                                <div className="row">
-                                    <div className="col-md-6 mb-3">
-                                        <label >Name on card</label>
-                                        <input type="text" className="form-control" id="cc-name" placeholder="" required />
-                                        <small className="text-muted">Full name as displayed on card</small>
-                                        <div className="invalid-feedback">
-                                            Name on card is required
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6 mb-3">
-                                        <label >Credit card number</label>
-                                        <input type="text" className="form-control" id="cc-number" placeholder="" required />
-                                        <div className="invalid-feedback">
-                                            Credit card number is required
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="row">
-                                    <div className="col-md-3 mb-3">
-                                        <label >Expiration</label>
-                                        <input type="text" className="form-control" id="cc-expiration" placeholder="" required />
-                                        <div className="invalid-feedback">
-                                            Expiration date required
-                                        </div>
-                                    </div>
-                                    <div className="col-md-3 mb-3">
-                                        <label >CVV</label>
-                                        <input type="text" className="form-control" id="cc-cvv" placeholder="" required />
-                                        <div className="invalid-feedback">
-                                            Security code required
-                                        </div>
-                                    </div>
-                                </div>
-                                <hr className="mb-4" />
-                                <button className="btn btn-primary btn-lg btn-block" type="button">Continue to checkout</button>
+                                <button className="btn btn-primary btn-lg btn-block" type="submit">Đặt hàng</button>
                             </form>
                         </div>
                     </div>

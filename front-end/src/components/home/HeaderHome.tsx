@@ -1,13 +1,16 @@
 import React from 'react'
 import { Dropdown, DropdownButton, FormControl, InputGroup } from 'react-bootstrap';
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
 import { isAuthenticate } from '../../utils/auth';
 import { useCart } from 'react-use-cart'
 
 
-type Props = {}
+type Props = {
+    onLogout: () => void
 
-const HeaderHome = (props: Props) => {
+}
+
+const HeaderHome = ({onLogout}: Props) => {
     const {
         isEmpty,
         totalUniqueItems,
@@ -17,6 +20,15 @@ const HeaderHome = (props: Props) => {
         removeItem,
         emptyCart
     } = useCart();
+    const navigate = useNavigate();
+    const handleLogout = () => {
+        localStorage.removeItem("user");
+        localStorage.removeItem("react-use-cart")
+        navigate("/signin");
+        onLogout();
+        
+    }
+    
     const auth = isAuthenticate()
     return (
         <div>
@@ -41,17 +53,20 @@ const HeaderHome = (props: Props) => {
                             </div>
                             <div className="col-lg-4 col-sm-6 col-12">
                                 <div className="widgets-wrap float-md-right">
-                                    <div className="widget-header  mr-3">
-                                        <Link to="cart" className="icon icon-sm rounded-circle border"><i className="fa fa-shopping-cart"></i></Link>
+                                    <div className="widget-header mr-3">
+                                        <NavLink to="cart" className="icon icon-sm rounded-circle border"><i className="fa fa-shopping-cart"></i></NavLink>
                                         <span className="badge badge-pill badge-danger notify">{totalUniqueItems}</span>
                                     </div>
                                     <div className="widget-header icontext">
-                                        <a href="#" className="icon icon-sm rounded-circle border"><i className="fa fa-user"></i></a>
+                                        {auth?.user.role === 1 && (
+                                            <Link to="/admin" className="icon icon-sm rounded-circle border"><i className="fa fa-user"></i></Link>
+                                        )}
                                         <div className="text">
                                             <span className="text-muted">Xin chào</span>
                                             {auth && (
                                                 <div>
-                                                    {auth.user.name} <br />
+                                                    <span style={{fontWeight:'bold'}}>{auth.user.name}</span>
+                                                    <span style={{cursor:'pointer'}} onClick={() => handleLogout()}>  Đăng xuất</span>
                                                 </div>
                                             )}
                                             {!auth && (

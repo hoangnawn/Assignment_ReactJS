@@ -83,7 +83,7 @@ const Cart = () => {
                                 </table>
 
                                 <div className="card-body border-top">
-                                    <a href="#" className="btn btn-primary float-md-right"> Thanh toán <i className="fa fa-chevron-right"></i> </a>
+                                    <Link to="/checkout" className="btn btn-primary float-md-right"> Thanh toán <i className="fa fa-chevron-right"></i> </Link>
                                     <Link to="/product" className="btn btn-light"> <i className="fa fa-chevron-left"></i> Quay lại trang sản phẩm </Link>
                                 </div>
                             </div>

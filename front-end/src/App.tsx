@@ -23,6 +23,9 @@ import ProductDetail from './pages/home/ProductDetail'
 import ProductByCate from './pages/home/ProductByCate'
 import Cart from './pages/home/Cart'
 import { CartProvider } from 'react-use-cart'
+import CheckOut from './pages/home/CheckOut'
+import ThankYouPage from './pages/home/ThankYouPage'
+import ListOrder from './pages/admin/order/ListOrder'
 
 
 
@@ -45,7 +48,9 @@ function App() {
             <Route index element={<Navigate to=':id'/>}/>
             <Route path=':id' element={<CartProvider><ProductByCate /></CartProvider>}/>
           </Route>
-          <Route path='cart' element={<Cart/>}/>
+          <Route path='cart' element={<CartProvider><Cart/></CartProvider>}/>
+          <Route path='checkout' element={<CartProvider><CheckOut/></CartProvider>}/>
+          <Route path='thankyou' element={<ThankYouPage/>}/>
         </Route>
         <Route path='admin' element={<PrivateRouter><AdminLayouts /></PrivateRouter>}>
           <Route index element={<Navigate to="dashboard" />} />
@@ -58,6 +63,11 @@ function App() {
           </Route>
           <Route path='category'>
             <Route index element={<ListCate />} />
+            <Route path='add' element={<AddCate />} />
+            <Route path='edit/:id' element={<EditCate />} />
+          </Route>
+          <Route path='order'>
+            <Route index element={<ListOrder />} />
             <Route path='add' element={<AddCate />} />
             <Route path='edit/:id' element={<EditCate />} />
           </Route>

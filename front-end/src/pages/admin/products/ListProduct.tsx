@@ -58,8 +58,8 @@ const ListProduct = () => {
             key: 'action',
             render: (recore: any) => (
                 <Space size="middle">
-                    <NavLink to={'/admin/product/edit/'+recore.id}>Edit</NavLink>
-                    <button onClick={() => handleRemove(recore.id)}>Remove</button>
+                    <NavLink className={"btn btn-info"} to={'/admin/product/edit/'+recore.id}>Edit</NavLink>
+                    <button className='btn btn-danger' onClick={() => handleRemove(recore.id)}>Remove</button>
                 </Space>
             )
         },

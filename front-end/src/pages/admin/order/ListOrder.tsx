@@ -1,4 +1,4 @@
-import { Breadcrumb, Layout, Space } from 'antd'
+import { Breadcrumb, Layout, Space, Tag } from 'antd'
 import { Content } from 'antd/lib/layout/layout'
 import React, { useEffect, useState } from 'react'
 import { Table } from 'antd'
@@ -6,20 +6,20 @@ import { Typography } from 'antd';
 import { Button, Radio } from 'antd';
 import { NavLink } from 'react-router-dom';
 import swal from 'sweetalert';
-import { CateType } from '../../types/category';
-import { listcate, remove } from '../../../api/category';
+import { listorder, remove } from '../../../api/order';
+import { OrderType } from '../../types/order';
 
 
 const { Title } = Typography;
 
 
-const ListCate = () => {
-    const [cates, setCates] = useState<CateType[]>();
+const ListOrder = () => {
+    const [orders, setOrders] = useState<OrderType[]>();
 
     useEffect(() => {
         const getProducts = async () => {
-            const { data } = await listcate();
-            setCates(data);
+            const { data } = await listorder();
+            setOrders(data);
         }
         getProducts();
     }, [])
@@ -37,7 +37,7 @@ const ListCate = () => {
               swal("Bạn đã xóa thành công", {
                 icon: "success",
               })
-              .then(() => setCates(cates?.filter(item => item._id !== id)));
+              .then(() => setOrders(orders?.filter(item => item._id !== id)));
             } else {
               swal("Lựa chọn hủy là đúng đắn đó Bro");
             }
@@ -45,24 +45,33 @@ const ListCate = () => {
     }
     const columns = [
         { title: 'STT', dataIndex: 'stt', key: 'stt' },
-        { title: 'Name', dataIndex: 'name', key: 'name' },
+        { title: 'Tên khách hàng', dataIndex: 'name', key: 'name' },
+        { title: 'Email', dataIndex: 'email', key: 'email' },
+        { title: 'Số điện thoại', dataIndex: 'phone', key: 'phone' },
+        { title: 'Địa chỉ', dataIndex: 'address', key: 'address' },
+        { title: 'Trạng thái', dataIndex: 'status', key: 'status' },
+
         {
             title: 'Action',
             dataIndex: '',
             key: 'action',
             render: (recore: any) => (
                 <Space size="middle">
-                    <NavLink className={"btn btn-info"} to={'/admin/category/edit/'+recore.id}>Edit</NavLink>
+                    <NavLink className={"btn btn-info"} to={'/admin/order/detail/'+recore.id}>Xem chi tiết</NavLink>
                     <button className='btn btn-danger' onClick={() => handleRemove(recore.id)}>Remove</button>
                 </Space>
             )
         },
     ];
-    const data = cates?.map((cate, index) => {
+    const data = orders?.map((order, index) => {
         return {
             stt: index + 1,
-            name: cate.name,
-            id: cate._id
+            name: order.userOrder.name,
+            email: order.userOrder.email,
+            phone: order.userOrder.phone,
+            address: order.userOrder.address,
+            status: order.status == '0'? <Tag color={"geekblue"}>Chờ xác nhận</Tag>: order.status == '1'? <Tag color={"green"}>Đã xác nhận</Tag>: <Tag color={"volcano"}>Đã hủy</Tag>,
+            id: order._id
         }
     })
 
@@ -71,7 +80,7 @@ const ListCate = () => {
             <Layout style={{ padding: '0 24px 24px' }}>
                 <Breadcrumb style={{ margin: '16px 0' }}>
                     <Breadcrumb.Item>Home</Breadcrumb.Item>
-                    <Breadcrumb.Item>Category</Breadcrumb.Item>
+                    <Breadcrumb.Item>Order</Breadcrumb.Item>
                 </Breadcrumb>
 
                 <Content
@@ -82,8 +91,7 @@ const ListCate = () => {
                         minHeight: 280,
                     }}>
                     <div style={{ minHeight: 460, padding: 24 }}>
-                        <Button><NavLink to='add'>Thêm Danh Mục</NavLink></Button>
-                        <Title level={2}>Danh sách Danh Mục</Title>
+                        <Title level={2}>Danh sách Đơn Hàng</Title>
                         <Table columns={columns} dataSource={data} />
                     </div>
                 </Content>
@@ -92,4 +100,4 @@ const ListCate = () => {
     )
 }
 
-export default ListCate
+export default ListOrder

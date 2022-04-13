@@ -21,6 +21,9 @@ const NavAdmin = (props: Props) => {
 					<Menu.Item key={'Category'} icon={<UnorderedListOutlined />}>
 						<NavLink className="nav-link" to='category'>Danh mục</NavLink>
 					</Menu.Item>
+					<Menu.Item key={'Order'} icon={<ShoppingCartOutlined />}>
+						<NavLink className="nav-link" to='order'>Đơn hàng</NavLink>
+					</Menu.Item>
 				</Menu>
 			</Layout>
 		</div>

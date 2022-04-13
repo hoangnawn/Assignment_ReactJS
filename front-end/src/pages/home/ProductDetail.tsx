@@ -101,7 +101,7 @@ const ProductDetail = () => {
                                                 </div> */}
                                             </div>
                                             <div className="mb-4">
-                                                <button className="btn btn-primary mr-1" onClick={()=>addItem(productCart)}>Buy now</button>
+                                                <button className="btn btn-primary mr-1" onClick={()=>addItem(productCart)}>Mua ngay</button>
                                             </div>
                                         </div>                        
                                     </article>
