@@ -20,6 +20,10 @@ export const listbyIDCate = (id: number) => {
     const url = `/category/${id}`;
     return instance.get(url);
 }
+export const listbyIDcategory = (id: number) => {
+    const url = `/category/get/${id}`;
+    return instance.get(url);
+}
 export const update = (cate: CateType) =>{
     const url = `/category/${cate._id}`;
     return instance.put(url, cate)

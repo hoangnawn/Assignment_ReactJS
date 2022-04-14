@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { SubmitHandler, useForm } from "react-hook-form";
-import { add, listbyIDCate, update } from '../../../api/category';
+import { add, listbyIDcategory, update } from '../../../api/category';
 import { Breadcrumb, Layout, Input, Select, notification } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
 import Title from 'antd/lib/typography/Title';
@@ -14,15 +14,17 @@ import { CateType } from '../../types/category';
 const EditCate = () => {
     const { register, handleSubmit, formState, reset } = useForm<CateType>();
     // const [form] = Form.useForm();
+    const [cates, setCates] = useState<CateType>();
+
     const { id } = useParams();
     const navigate = useNavigate()
 
 
     useEffect(() => {
         const getCate = async () => {
-            const { data } = await listbyIDCate(id);
+            const { data } = await listbyIDcategory(id);
             reset(data)
-            console.log(data);
+            setCates(data.category)
         }
         getCate();
     }, [])

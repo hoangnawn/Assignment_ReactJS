@@ -28,6 +28,14 @@ export const listCategoryDetail = async (request,response)=>{
         response.status(400).json({message:"Khong the hien thi"})
     }
 }
+export const listCategoryById = async (request,response)=>{
+    try {
+        const category = await Category.findOne({_id:request.params.id}).exec()
+        response.json(category)
+    } catch (error) {
+        response.status(400).json({message:"Khong the hien thi"})
+    }
+}
 export const deleteCategory = async (request,response)=>{
     try {
         const categori = await Category.findOneAndDelete({_id:request.params.id}).exec()

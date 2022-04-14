@@ -51,7 +51,7 @@ const Cart = () => {
                                                         <figure className="itemside">
                                                             <div className="aside"><img src={item.image} className="img-sm" /></div>
                                                             <figcaption className="info">
-                                                                <h4>{item.name}</h4>
+                                                                <p style={{fontWeight:'bold'}}>{item.name}</p>
                                                             </figcaption>
                                                         </figure>
                                                     </td>

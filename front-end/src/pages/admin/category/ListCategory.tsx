@@ -52,8 +52,8 @@ const ListCate = () => {
             key: 'action',
             render: (recore: any) => (
                 <Space size="middle">
-                    <NavLink className={"btn btn-info"} to={'/admin/category/edit/'+recore.id}>Edit</NavLink>
-                    <button className='btn btn-danger' onClick={() => handleRemove(recore.id)}>Remove</button>
+                    <NavLink className={"btn btn-info"} to={'/admin/category/edit/'+recore.id}>Sửa</NavLink>
+                    <button className='btn btn-danger' onClick={() => handleRemove(recore.id)}>Xóa</button>
                 </Space>
             )
         },

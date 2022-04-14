@@ -26,6 +26,7 @@ import { CartProvider } from 'react-use-cart'
 import CheckOut from './pages/home/CheckOut'
 import ThankYouPage from './pages/home/ThankYouPage'
 import ListOrder from './pages/admin/order/ListOrder'
+import EditOrder from './pages/admin/order/EditOrder'
 
 
 
@@ -69,7 +70,7 @@ function App() {
           <Route path='order'>
             <Route index element={<ListOrder />} />
             <Route path='add' element={<AddCate />} />
-            <Route path='edit/:id' element={<EditCate />} />
+            <Route path='detail/:id' element={<EditOrder />} />
           </Route>
         </Route>
         <Route path='signup' element={<Signup />} />
